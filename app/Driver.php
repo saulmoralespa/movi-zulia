@@ -1,0 +1,26 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Driver extends Model
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'avatar', 'name', 'plate_number', 'phone', 'filename', 'user_id'
+    ];
+
+    protected $casts = [
+        'filename' => 'array'
+    ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+}

@@ -1,0 +1,42 @@
+
+@import '~materialize-css';
+
+/* Esto arregla el dropdown cuando la pagina está vacia */
+
+html, body {
+    height: 98%;
+}
+
+/* DropDown User menu */
+
+.dropdown-content {
+    top: 65px !important;
+    left: 0;
+    right: 0;
+    min-width: 250px;
+}
+
+input[type="button" i],
+input[type="submit" i] {
+    color: #fff;
+}
+
+.active-settings {
+    border-bottom: 1px solid black
+}
+
+.avatar-user{
+    width: 64px;
+    height: 64px;
+}
+
+.lockscreen {
+    width: 100%;
+    height: 100vh;
+    background: url(https://media.istockphoto.com/photos/blue-sky-and-white-clouds-background-picture-id825778252?k=6&m=825778252&s=612x612&w=0&h=VPlp3pwPLCK2fUhhLEO_p-hdQ7Pa1CVtLcAHZBLv4cM=) no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
