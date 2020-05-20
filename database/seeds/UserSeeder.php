@@ -41,23 +41,6 @@ class UserSeeder extends Seeder
 
         ]);
 
-        $faker = Faker\Factory::create();
-
-        for ($i = 0; $i < 10; $i++) {
-            App\Driver::create([
-                'avatar' => $faker->image('public/storage/img/profile',250,250, 'people', false),
-                'name' => "$faker->firstName $faker->lastName",
-                'plate_number' => $faker->unique()->regexify('[A-Za-z0-9]{6}'),
-                'phone' => $faker->unique()->phoneNumber,
-                'filename' => json_encode([
-                    $faker->image('public/storage/img/cars',640,480, 'transport', false),
-                    $faker->image('public/storage/img/cars',640,480, 'transport', false),
-                    $faker->image('public/storage/img/cars',640,480, 'transport', false)
-                ]),
-                'user_id' => $user->id
-            ]);
-        }
-
         $user->assignRole('manager');
         $role = Role::find($user->id);
         $role->syncPermissions(Permission::all());
