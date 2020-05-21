@@ -25,7 +25,8 @@ class UserSeeder extends Seeder
             Permission::create(['name' => $permission]);
         }
 
-        Role::create(['name' => 'manager']);
+        $manager = Role::create(['name' => 'manager']);
+        $manager->givePermissionTo(Permission::all());
 
         $user = User::create([
             'name' => 'user',
@@ -34,7 +35,9 @@ class UserSeeder extends Seeder
 
         ]);
 
-        $user2 = User::create([
+        $user->assignRole('manager');
+
+        $user = User::create([
             'name' => 'user 2',
             'email' => 'username2@example.com',
             'password' => bcrypt('secret')
@@ -42,11 +45,5 @@ class UserSeeder extends Seeder
         ]);
 
         $user->assignRole('manager');
-        $role = Role::find($user->id);
-        $role->syncPermissions(Permission::all());
-
-        $user2->assignRole('manager');
-        $role = Role::find($user2->id);
-        $role->syncPermissions(Permission::all());
     }
 }

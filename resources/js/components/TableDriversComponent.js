@@ -188,9 +188,9 @@ const TableDriversComponent = () => {
         );
     }
 
-    return(
-        <>{
-            drivers.length ? <div style={styles.container}>
+    const  Table = () => {
+        return(
+            <div style={styles.container}>
                 <CRUDTable
                     caption="Conductores"
                     fetchItems={payload => service.fetchItems(payload)}
@@ -296,8 +296,15 @@ const TableDriversComponent = () => {
                         }}
                     />
                 </CRUDTable>
-            </div> : null
-        }
+            </div>
+        );
+    }
+
+    return(
+        <>
+            {
+            drivers.length ? <Table/> : null
+            }
         </>
     );
 }
