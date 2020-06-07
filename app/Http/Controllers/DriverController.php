@@ -111,4 +111,10 @@ class DriverController extends Controller
         Storage::delete($pathOldImage);
         $driver->delete();
     }
+
+    public function show()
+    {
+        $drivers = Driver::all();
+        return response()->json($drivers, 200);
+    }
 }

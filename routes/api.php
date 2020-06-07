@@ -15,7 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('users', 'UserController@show');
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('drivers', 'DriverController@show');
