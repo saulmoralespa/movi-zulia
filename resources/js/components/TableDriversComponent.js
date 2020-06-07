@@ -46,6 +46,7 @@ const TableDriversComponent = () => {
             formData.append('id', userId);
             formData.append('avatar', drive.imageprofile);
             formData.append('name', drive.name);
+            formData.append('email', drive.email);
             formData.append('plate_number', drive.plate_number);
             formData.append('phone', drive.phone);
             if(typeof drive.uploads !== 'undefined'){
@@ -87,6 +88,7 @@ const TableDriversComponent = () => {
             formData.append('id', data.id);
             formData.append('avatar', data.imageprofile);
             formData.append('name', data.name);
+            formData.append('email', data.email);
             formData.append('plate_number', data.plate_number);
             formData.append('phone', data.phone);
             if(typeof data.uploads !== 'undefined'){
@@ -113,6 +115,7 @@ const TableDriversComponent = () => {
                     return Promise.reject(result.join());
 
                 drive.name = data.name;
+                drive.email = data.email;
                 drive.phone = data.phone;
                 drive.plate_number = data.plate_number;
                 return Promise.resolve(drive);
@@ -188,6 +191,11 @@ const TableDriversComponent = () => {
         );
     }
 
+    const validateEmail = (email) => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
     const  Table = () => {
         return(
             <div style={styles.container}>
@@ -201,6 +209,7 @@ const TableDriversComponent = () => {
                         <Field name="avatar" label="Foto de perfil" render={(field) => <Avatar {...field} />} />
                         <Field name="filename" label="Fotos del vehículo" render={(field) => <MultipleImageUploadComponent {...field}  />} />
                         <Field name="name" label="Nombre y apellidos" placeholder="Nombre y apellidos" />
+                        <Field name="email" label="Email" placeholder="Email de Facebook o Google" />
                         <Field name="plate_number" type="text" label="Número de placa" placeholder="Número de placa" />
                         <Field name="phone" label="Celular" placeholder="Número de celular con WhatsApp" />
                     </Fields>
@@ -214,12 +223,12 @@ const TableDriversComponent = () => {
                         validate={values => {
                             const errors = {};
 
-                            if (!values.avatar) {
-                                errors.avatar = "Por favor, escriba el nombre del conductor";
-                            }
-
                             if (!values.name || !/\s/.test(values.name)) {
                                 errors.name = "Por favor, escriba el nombre y apellidos del conductor";
+                            }
+
+                            if (!values.email || !validateEmail(values.email)) {
+                                errors.email = "Por favor, escriba un email de uso con Facebook o Google";
                             }
 
                             if (!values.plate_number) {
@@ -230,11 +239,7 @@ const TableDriversComponent = () => {
                                 errors.plate_number = "Por favor, escriba un número de placa válido"
                             }
 
-                            if (!values.phone) {
-                                errors.phone = "Por favor, escriba el celular con WhatsApp del conductor";
-                            }
-
-                            if (!/^\d*$/.test(values.phone) || (values.phone.length > 10 || values.phone.length < 10)) {
+                            if (!values.phone || !/^\d*$/.test(values.phone) || (values.phone.length > 10 || values.phone.length < 10)) {
                                 errors.phone = "Por favor, escriba un número de celular válido";
                             }
 
@@ -252,12 +257,12 @@ const TableDriversComponent = () => {
                         validate={values => {
                             const errors = {};
 
-                            if (!values.avatar) {
-                                errors.avatar = "Por favor, escriba el nombre del conductor";
-                            }
-
                             if (!values.name || !/\s/.test(values.name)) {
                                 errors.name = "Por favor, escriba el nombre y apellidos del conductor";
+                            }
+
+                            if (!values.email || !validateEmail(values.email)) {
+                                errors.email = "Por favor, escriba un email de uso con Facebook o Google";
                             }
 
                             if (!values.plate_number) {
@@ -268,11 +273,7 @@ const TableDriversComponent = () => {
                                 errors.plate_number = "Por favor, escriba un número de placa válido"
                             }
 
-                            if (!values.phone) {
-                                errors.phone = "Por favor, escriba el celular con WhatsApp del conductor";
-                            }
-
-                            if (!/^\d*$/.test(values.phone) || (values.phone.length > 10 || values.phone.length < 10)) {
+                            if (!values.phone || !/^\d*$/.test(values.phone) || (values.phone.length > 10 || values.phone.length < 10)) {
                                 errors.phone = "Por favor, escriba un número de celular válido";
                             }
 
@@ -300,13 +301,7 @@ const TableDriversComponent = () => {
         );
     }
 
-    return(
-        <>
-            {
-            drivers.length ? <Table/> : null
-            }
-        </>
-    );
+    return(<Table/>);
 }
 
 TableDriversComponent.propTypes = {};

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Driver;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Validator;
@@ -19,15 +18,11 @@ class DriverController extends Controller
         return response()->json($drivers);
     }
 
-    public function delete($id)
-    {
-        Driver::find($id)->delete();
-    }
-
     public function add(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'avatar' => 'required|file|mimes:jpg,jpeg,png',
+            'email' => 'required|email|unique:drivers',
             'filename.*' => 'required|mimes:jpg,jpeg,png',
             'phone' => 'required|numeric|min:10|unique:drivers',
             'plate_number' => 'required|min:6|unique:drivers'
@@ -51,7 +46,8 @@ class DriverController extends Controller
 
         Driver::create([
             'name' => $request->name,
-            'avatar' => $name,
+            'email' => $request->email,
+            'avatar' => $nameAvatar,
             'plate_number' => $request->plate_number,
             'phone' => $request->phone,
             'filename' => json_encode($images),
@@ -68,6 +64,7 @@ class DriverController extends Controller
 
         $validator = Validator::make($request->all(), [
             'phone' => $driver->phone === $request->phone ? 'required|numeric|min:10' : 'required|numeric|min:10|unique:drivers',
+            'email' => $driver->email === $request->email ? 'required|email' : 'required|email|unique:drivers',
             'plate_number' => $driver->plate_number === $request->plate_number ? 'required|min:6' : 'required|unique:drivers|min:6'
         ]);
 
@@ -88,13 +85,6 @@ class DriverController extends Controller
 
         if ($request->hasFile('filename'))
         {
-            $oldImages = json_encode($driver->filename, true);
-
-            /*foreach ($oldImages as $image){
-                $pathOldImage = self::PATH_IMAGES_CARS . $image;
-                Storage::delete($pathOldImage);
-            }*/
-
             foreach($request->file('filename') as $file)
             {
                 $name = $avatar->hashName();
@@ -106,10 +96,19 @@ class DriverController extends Controller
         }
 
         $driver->name = $request->name;
+        $driver->email = $request->email;
         $driver->phone = $request->phone;
         $driver->plate_number = $request->plate_number;
         $driver->save();
 
         return response()->json(['avatar' => $driver->avatar]);
+    }
+
+    public function delete($id)
+    {
+        $driver = Driver::find($id);
+        $pathOldImage = self::PATH_IMAGES_PROFILE . $driver->avatar;
+        Storage::delete($pathOldImage);
+        $driver->delete();
     }
 }

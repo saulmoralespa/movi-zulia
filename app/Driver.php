@@ -12,7 +12,7 @@ class Driver extends Model
      * @var array
      */
     protected $fillable = [
-        'avatar', 'name', 'plate_number', 'phone', 'filename', 'user_id'
+        'avatar', 'name', 'email',  'plate_number', 'phone', 'filename', 'user_id'
     ];
 
     protected $casts = [

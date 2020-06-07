@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
 
         ]);
 
-        $faker = Faker\Factory::create();
+        /*$faker = Faker\Factory::create();
 
         for ($i = 0; $i < 10; $i++) {
             App\Driver::create([
@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
                 ]),
                 'user_id' => $user->id
             ]);
-        }
+        }*/
 
         $user->assignRole('manager');
         $user2->assignRole('manager');

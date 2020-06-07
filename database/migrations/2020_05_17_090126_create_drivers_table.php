@@ -17,6 +17,7 @@ class CreateDriversTable extends Migration
             $table->id();
             $table->string('avatar');
             $table->string('name');
+            $table->string('email')->unique();
             $table->string('plate_number')->unique();
             $table->string('phone')->unique();
             $table->json('filename');
