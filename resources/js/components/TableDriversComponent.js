@@ -64,7 +64,7 @@ const TableDriversComponent = () => {
                         if(res.data.errors){
                             result = res.data.errors;
                         }else{
-                            drive.avatar = res.data.avatar;
+                            drive = {...drive, ...res.data}
                         }
                     })
                     .catch(err => {});
@@ -73,8 +73,7 @@ const TableDriversComponent = () => {
                     return Promise.reject(result.join());
 
                 setDrivers([...drivers,  {
-                    ...drive,
-                    id: drivers.length + 2
+                    ...drive
                 }]);
 
                 return Promise.resolve(drive);

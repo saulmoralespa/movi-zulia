@@ -44,7 +44,7 @@ class DriverController extends Controller
             $images[] = $name;
         }
 
-        Driver::create([
+        $driver = Driver::create([
             'name' => $request->name,
             'email' => $request->email,
             'avatar' => $nameAvatar,
@@ -54,7 +54,12 @@ class DriverController extends Controller
             'user_id' => $request->id
         ]);
 
-        return response()->json(['avatar' => $nameAvatar]);
+        return response()->json(
+            [
+            'avatar' => $nameAvatar,
+            'id'    => $driver->id
+            ]
+        );
 
     }
 
