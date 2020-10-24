@@ -7,12 +7,6 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function getNotificationByDeviceId($device_id)
-    {
-        $notification = Notification::where('device_id', '=', $device_id)->get();
-        return response()->json($notification, 200);
-    }
-
     public function add(Request $request)
     {
         $data = $request->all();
@@ -28,5 +22,17 @@ class NotificationController extends Controller
         }
 
         return response()->json($message, $statusCode);
+    }
+
+    public function getNotificationByDeviceId($device_id)
+    {
+        $notification = Notification::where('device_id', '=', $device_id)->get();
+        return response()->json($notification, 200);
+    }
+
+    public function getNotificationByDriverId($driver_id)
+    {
+        $notification = Notification::where('driver_id', '=', $driver_id)->get();
+        return response()->json($notification, 200);
     }
 }
