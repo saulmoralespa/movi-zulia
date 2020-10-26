@@ -57,20 +57,12 @@ class LoginController extends Controller
 
         $existing = User::where('email', $user->email)->first();
 
-        if (!$existing) {
+        if ($existing) {
 
             $fileContents = file_get_contents($user->avatar_original);
             $avatarImg = $user->getId() . ".jpg";
             File::put(storage_path('/app/public/img/profile/')  . $avatarImg , $fileContents);
 
-            $register = User::create([
-                'name' => $user->name,
-                'email' => $user->email,
-                'avatar' => $avatarImg,
-                'password' => bcrypt(Str::random()),
-            ]);
-            auth()->login($register);
-        }else{
             auth()->login($existing);
         }
 

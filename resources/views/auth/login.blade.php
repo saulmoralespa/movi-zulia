@@ -43,8 +43,12 @@
                     {{ __('Login') }}
                 </button>
 
-                <a class="waves-effect waves-light btn" href="{{ route('loginFacebook', 'facebook') }}">
+                <a class="waves-effect waves-light btn" href="{{ route('loginSocial', 'facebook') }}">
                     {{ __('Ingresa con Facebook') }}
+                </a>
+
+                <a class="waves-effect waves-light btn" href="{{ route('loginSocial', 'google') }}">
+                    {{ __('Ingresa con Google') }}
                 </a>
 
                 <a class="waves-effect waves-light btn" href="{{ route('password.request') }}">

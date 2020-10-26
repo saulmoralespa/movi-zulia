@@ -34,5 +34,11 @@ return [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => env('APP_ENV') === 'local' ? env('APP_URL_TUNEL') . '/auth/facebook/callback' : env('APP_URL') . '/auth/facebook/callback',
-    ]
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('APP_ENV') === 'local' ? env('APP_URL_TUNEL') . '/auth/google/callback' : env('APP_URL') . '/auth/google/callback',
+    ],
 ];

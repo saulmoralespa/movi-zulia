@@ -17,7 +17,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes(['register' => false]);
 
-Route::get('/auth/{network}', 'Auth\LoginController@redirectToProvider')->name('loginFacebook');
+Route::get('/auth/{network}', 'Auth\LoginController@redirectToProvider')->name('loginSocial');
 Route::get('/auth/{network}/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'manager', 'as' => 'manager.'], function () {
