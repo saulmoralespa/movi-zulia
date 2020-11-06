@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('users', 'UserController@show');
 Route::get('drivers', 'DriverController@show');
+Route::get('drivers/{email}', 'DriverController@getDriverByEmail');
 Route::post('notifications/add', 'NotificationController@add');
+Route::put('notifications/{id}', 'NotificationController@update');
 Route::get('notifications/device/{id}', 'NotificationController@getNotificationByDeviceId');
 Route::get('notifications/driver/{id}', 'NotificationController@getNotificationByDriverId');

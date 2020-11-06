@@ -138,7 +138,13 @@ class DriverController extends Controller
 
     public function show()
     {
-        $drivers = Driver::all();
+        $drivers = Driver::paginate(3);
         return response()->json($drivers, 200);
+    }
+
+    public function getDriverByEmail($email)
+    {
+        $driver = Driver::where('email', '=', $email)->get();
+        return response()->json($driver, 200);
     }
 }

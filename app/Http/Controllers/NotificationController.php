@@ -24,6 +24,11 @@ class NotificationController extends Controller
         return response()->json($message, $statusCode);
     }
 
+    public function update($id, Request $request)
+    {
+        Notification::where('id', $id)->update($request->all());
+    }
+
     public function getNotificationByDeviceId($device_id)
     {
         $notification = Notification::where('device_id', '=', $device_id)->get();
