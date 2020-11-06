@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('test', function() {
+    Storage::disk('google')->put('test.txt', 'Hello World');
+});
+
+Route::get('list', function() {
+    $dir = '/';
+    $recursive = false; // Get subdirectories also?
+    $contents = collect(Storage::cloud()->listContents($dir, $recursive));
+
+    //return $contents->where('type', '=', 'dir'); // directories
+    return $contents->where('type', '=', 'file'); // files
+});
 
 Auth::routes(['register' => false]);
 

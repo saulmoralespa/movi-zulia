@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import env  from '../env';
 import CRUDTable, {
     Fields,
@@ -8,12 +8,12 @@ import CRUDTable, {
     UpdateForm,
     DeleteForm
 } from "react-crud-table";
-
+import Swal from 'sweetalert2';
 import "./index.css";
 import MultipleImageUploadComponent from "./MultipleImageUploadComponent";
 
 const styles = {
-    container: { margin: "auto", width: "fit-content" }
+    container: { margin: "auto", width: "fit-content" },
 };
 
 const TableDriversComponent = () => {
@@ -40,6 +40,14 @@ const TableDriversComponent = () => {
             return Promise.resolve(result);
         },
         create: drive => {
+
+            Swal.fire({
+                title: 'Guardando',
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+                allowOutsideClick: false
+            });
 
             let formData = new FormData();
             const userId = document.querySelector("meta[name='user-id']").getAttribute("content");
@@ -76,12 +84,23 @@ const TableDriversComponent = () => {
                     ...drive
                 }]);
 
+                Swal.close();
+
                 return Promise.resolve(drive);
             }
 
             return asyncCall();
         },
         update: data => {
+
+            Swal.fire({
+                title: 'Actualizando',
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+                allowOutsideClick: false
+            });
+
             const drive = drivers.find(t => t.id === data.id);
             let formData = new FormData();
             formData.append('id', data.id);
@@ -117,6 +136,7 @@ const TableDriversComponent = () => {
                 drive.email = data.email;
                 drive.phone = data.phone;
                 drive.plate_number = data.plate_number;
+                Swal.close();
                 return Promise.resolve(drive);
             }
 
@@ -124,6 +144,15 @@ const TableDriversComponent = () => {
 
         },
         delete: data => {
+
+            Swal.fire({
+                title: 'Eliminando',
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+                allowOutsideClick: false
+            });
+
             const drive = drivers.find(t => t.id === data.id);
             axios.delete(`/manager/drivers/${data.id}`)
                 .then(res => {

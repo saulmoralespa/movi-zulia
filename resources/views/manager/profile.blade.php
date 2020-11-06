@@ -20,7 +20,7 @@
                         </div>
                         <div class="col s12">
                             <div>
-                                <img alt="" width="200px" src="{{ Storage::url( Auth::user()->avatar) }}">
+                                <img alt="" width="200px" src="{{ storageGoogle(Auth::user()->avatar) }}">
                             </div>
                             <div>
                                 <div class="file-field input-field">

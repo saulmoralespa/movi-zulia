@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,37 @@ class ManagerSettingsController extends Controller
         $user = Auth::user();
         if ($request->file('avatar_user'))
         {
-            Storage::delete($user->avatar);
-            $user->avatar = $request->file('avatar_user')->store('public/img/profile');
+            $dir = '/';
+            $recursive = false; // Get subdirectories also?
+            $contents = collect(Storage::cloud()->listContents($dir, $recursive));
+
+            $file = $contents
+                ->where('type', '=', 'file')
+                ->where('filename', '=', pathinfo($user->avatar, PATHINFO_FILENAME))
+                ->where('extension', '=', pathinfo($user->avatar, PATHINFO_EXTENSION))
+                ->first(); // there can be duplicate file names!
+
+            Storage::cloud()->delete($file['path']);
+
+            $nameAvatar = $request->file('avatar_user')->hashName();
+
+            $savedImage = Storage::cloud()->put($nameAvatar, $request->file('avatar_user')->get());
+
+            $user->avatar = '';
+
+            if ($savedImage){
+                $dir = '/';
+                $recursive = false; // Get subdirectories also?
+                $contents = collect(Storage::cloud()->listContents($dir, $recursive));
+
+                $file = $contents
+                    ->where('type', '=', 'file')
+                    ->where('filename', '=', pathinfo($nameAvatar, PATHINFO_FILENAME))
+                    ->where('extension', '=', pathinfo($nameAvatar, PATHINFO_EXTENSION))
+                    ->first(); // there can be duplicate file names!
+
+                $user->avatar = $file['path'];
+            }
         }
 
         $user->name = $request->get('name_user');

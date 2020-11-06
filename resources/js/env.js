@@ -1,6 +1,6 @@
 const env = {
     pathRelativeStorage: () => {
-        return '/storage/img/profile/';
+        return 'http://drive.google.com/uc?export=view&id=';
     }
 }
 
