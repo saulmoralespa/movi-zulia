@@ -12,11 +12,7 @@ class Driver extends Model
      * @var array
      */
     protected $fillable = [
-        'avatar', 'name', 'email',  'plate_number', 'phone', 'filename', 'user_id'
-    ];
-
-    protected $casts = [
-        'filename' => 'array'
+        'avatar', 'name', 'email',  'plate_number', 'user_id'
     ];
 
     public function user()

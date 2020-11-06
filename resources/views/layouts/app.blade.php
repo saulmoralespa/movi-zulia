@@ -33,7 +33,7 @@
         <ul id="dropdown1" class="dropdown-content">
             <li>
                 <div class="user-view center-align">
-                    <a href="#user"><img class="circle avatar-user" src="{{  Storage::url( Auth::user()->avatar) }}"></a>
+                    <a href="#user"><img class="circle avatar-user" src="{{ storageGoogle(Auth::user()->avatar) }}"></a>
                     <a href="#name"><span class="black-text name">{{ Auth::user()->name }}</span></a>
                 </div>
             </li>
@@ -46,7 +46,7 @@
                          document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </li>
@@ -56,7 +56,7 @@
             <div class="nav-wrapper">
 
                 <a href="{{ url('/') }}" class="brand-logo center">
-                    <img src="" alt="{{ config('app.name') }}">
+                    <img src="{{ asset('img/logo.png') }}" class="logo" alt="{{ config('app.name') }}">
                 </a>
                 @if(auth()->check())
                 <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
@@ -72,7 +72,7 @@
         <ul id="slide-out" class="sidenav">
             <li>
                 <div class="user-view">
-                    <a href="#user"><img class="circle" src="{{  Storage::url( Auth::user()->avatar) }}"></a>
+                    <a href="#user"><img class="circle" src="{{ storageGoogle(Auth::user()->avatar) }}"></a>
                     <a href="#name"><span class="name">{{ Auth::user()->name }}</span></a>
                     <a href="#email"><span class="email"> {{ Auth::user()->email }}</span></a>
                 </div>
@@ -87,7 +87,7 @@
                     {{ __('Logout') }}
                 </a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </li>

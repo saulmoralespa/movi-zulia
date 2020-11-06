@@ -10,7 +10,6 @@ import CRUDTable, {
 } from "react-crud-table";
 import Swal from 'sweetalert2';
 import "./index.css";
-import MultipleImageUploadComponent from "./MultipleImageUploadComponent";
 
 const styles = {
     container: { margin: "auto", width: "fit-content" },
@@ -56,12 +55,6 @@ const TableDriversComponent = () => {
             formData.append('name', drive.name);
             formData.append('email', drive.email);
             formData.append('plate_number', drive.plate_number);
-            formData.append('phone', drive.phone);
-            if(typeof drive.uploads !== 'undefined'){
-                for (let index = 0; index < drive.uploads.length; index++) {
-                    formData.append("filename[]", drive.uploads[index]);
-                }
-            }
 
             const asyncCall = async () => {
 
@@ -108,12 +101,6 @@ const TableDriversComponent = () => {
             formData.append('name', data.name);
             formData.append('email', data.email);
             formData.append('plate_number', data.plate_number);
-            formData.append('phone', data.phone);
-            if(typeof data.uploads !== 'undefined'){
-                for (let index = 0; index < data.uploads.length; index++) {
-                    formData.append("filename[]", data.uploads[index]);
-                }
-            }
 
             const asyncCall = async () => {
 
@@ -134,7 +121,6 @@ const TableDriversComponent = () => {
 
                 drive.name = data.name;
                 drive.email = data.email;
-                drive.phone = data.phone;
                 drive.plate_number = data.plate_number;
                 Swal.close();
                 return Promise.resolve(drive);
@@ -235,11 +221,9 @@ const TableDriversComponent = () => {
                     <Fields>
                         <Field name="id" label="Id" hideInCreateForm hideInUpdateForm />
                         <Field name="avatar" label="Foto de perfil" render={(field) => <Avatar {...field} />} />
-                        <Field name="filename" label="Fotos del vehículo" render={(field) => <MultipleImageUploadComponent {...field}  />} />
                         <Field name="name" label="Nombre y apellidos" placeholder="Nombre y apellidos" />
                         <Field name="email" label="Email" placeholder="Email de Facebook o Google" />
                         <Field name="plate_number" type="text" label="Número de placa" placeholder="Número de placa" />
-                        <Field name="phone" label="Celular" placeholder="Número de celular con WhatsApp" />
                     </Fields>
                     <CreateForm
                         title="Agregar conductor"
@@ -265,10 +249,6 @@ const TableDriversComponent = () => {
 
                             if (values.plate_number && (values.plate_number.length > 6 || values.plate_number.length < 6)) {
                                 errors.plate_number = "Por favor, escriba un número de placa válido"
-                            }
-
-                            if (!values.phone || !/^\d*$/.test(values.phone) || (values.phone.length > 10 || values.phone.length < 10)) {
-                                errors.phone = "Por favor, escriba un número de celular válido";
                             }
 
                             return errors;
@@ -299,10 +279,6 @@ const TableDriversComponent = () => {
 
                             if (values.plate_number && (values.plate_number.length > 6 || values.plate_number.length < 6)) {
                                 errors.plate_number = "Por favor, escriba un número de placa válido"
-                            }
-
-                            if (!values.phone || !/^\d*$/.test(values.phone) || (values.phone.length > 10 || values.phone.length < 10)) {
-                                errors.phone = "Por favor, escriba un número de celular válido";
                             }
 
                             return errors;

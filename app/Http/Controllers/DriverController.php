@@ -9,9 +9,6 @@ use Validator;
 
 class DriverController extends Controller
 {
-    const PATH_IMAGES_PROFILE = 'public/img/profile/';
-    const PATH_IMAGES_CARS = 'public/img/cars/';
-
     public function fetch($user_id)
     {
         $drivers = Driver::where('user_id', $user_id)->orderBy('name', 'asc')->get();
@@ -23,9 +20,6 @@ class DriverController extends Controller
         $validator = Validator::make($request->all(), [
             'avatar' => 'required|file|mimes:jpg,jpeg,png',
             'email' => 'required|email|unique:drivers',
-            'filename' => 'required',
-            'filename.*' => 'required|mimes:jpg,jpeg,png|max:1000',
-            'phone' => 'required|numeric|min:10|unique:drivers',
             'plate_number' => 'required|min:6|unique:drivers'
         ]);
 
@@ -50,36 +44,11 @@ class DriverController extends Controller
             $nameAvatar = $file['path'];
         }
 
-        $images = [];
-
-        foreach($request->file('filename') as $file)
-        {
-            $name = $file->hashName();
-
-            $savedImage = Storage::cloud()->put($name, $file->get());
-
-            if ($savedImage){
-                $dir = '/';
-                $recursive = false; // Get subdirectories also?
-                $contents = collect(Storage::cloud()->listContents($dir, $recursive));
-
-                $file = $contents
-                    ->where('type', '=', 'file')
-                    ->where('filename', '=', pathinfo($name, PATHINFO_FILENAME))
-                    ->where('extension', '=', pathinfo($name, PATHINFO_EXTENSION))
-                    ->first(); // there can be duplicate file names!
-
-                $images[] = $file['path'];
-            }
-        }
-
         $driver = Driver::create([
             'name' => $request->name,
             'email' => $request->email,
             'avatar' => $nameAvatar,
             'plate_number' => $request->plate_number,
-            'phone' => $request->phone,
-            'filename' => json_encode($images),
             'user_id' => $request->id
         ]);
 
@@ -97,7 +66,6 @@ class DriverController extends Controller
         $driver = Driver::find($request->id);
 
         $validator = Validator::make($request->all(), [
-            'phone' => $driver->phone === $request->phone ? 'required|numeric|min:10' : 'required|numeric|min:10|unique:drivers',
             'email' => $driver->email === $request->email ? 'required|email' : 'required|email|unique:drivers',
             'plate_number' => $driver->plate_number === $request->plate_number ? 'required|min:6' : 'required|unique:drivers|min:6'
         ]);
@@ -141,35 +109,8 @@ class DriverController extends Controller
             }
         }
 
-        $images = [];
-
-        if ($request->hasFile('filename'))
-        {
-            foreach($request->file('filename') as $file)
-            {
-                $name = $file->hashName();
-                $savedImage = Storage::cloud()->put($name, $file->get());
-
-                if ($savedImage){
-                    $dir = '/';
-                    $recursive = false; // Get subdirectories also?
-                    $contents = collect(Storage::cloud()->listContents($dir, $recursive));
-
-                    $file = $contents
-                        ->where('type', '=', 'file')
-                        ->where('filename', '=', pathinfo($name, PATHINFO_FILENAME))
-                        ->where('extension', '=', pathinfo($name, PATHINFO_EXTENSION))
-                        ->first(); // there can be duplicate file names!
-                    $images[] = $file['path'];
-                }
-            }
-
-            $driver->filename = json_encode($images);
-        }
-
         $driver->name = $request->name;
         $driver->email = $request->email;
-        $driver->phone = $request->phone;
         $driver->plate_number = $request->plate_number;
         $driver->save();
 

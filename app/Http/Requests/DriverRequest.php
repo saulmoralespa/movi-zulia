@@ -24,7 +24,6 @@ class DriverRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'required|numeric|unique:driver',
             'plate_number' => 'required|unique:driver'
         ];
     }
@@ -32,8 +31,6 @@ class DriverRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.unique' => 'El :attribute ya sido registrado',
-            'phone.numeric' => 'Ingrese solo números para el campo celular',
             'plate_number.unique' => 'El :attribute ya sido registrado',
         ];
     }
